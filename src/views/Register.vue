@@ -92,7 +92,7 @@ export default {
     agree: {checked: v => v}
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       if(this.$v.$invalid) {
         this.$v.$touch()
         return
@@ -100,14 +100,15 @@ export default {
       
       const formData = {
         email: this.email,
-        paswword: this.password,
+        password: this.password,
         name: this.name,
       }
-
-      console.log(formData)
-
-      this.$router.push('/')
-
+      try {
+        await this.$store.dispatch('register', formData)
+        this.$router.push('/')
+      } catch (e) {
+        //console.log(e)
+      }
     }
   }
 }
